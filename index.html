@@ -1,68 +1,75 @@
-<html class="dark" lang="en"><head></head><body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-300 font-display selection:bg-primary selection:text-black">
-
-
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>CODEXCLAW | Ultimate Solana Degen Toolkit</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
-<script>
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: {
-                        primary: "#00FF9D",
-                        "background-light": "#f8fafc",
-                        "background-dark": "#05080a",
-                        "accent-dark": "#0a1114",
-                        "border-dark": "#1a2c33",
-                    },
-                    fontFamily: {
-                        display: ["Space Grotesk", "sans-serif"],
-                        mono: ["JetBrains Mono", "monospace"],
-                    },
-                    borderRadius: {
-                        DEFAULT: "4px",
-                    },
-                    backgroundImage: {
-                        'grid-pattern': "radial-gradient(circle, #00FF9D 1px, transparent 1px)",
-                    },
-                },
-            },
-        };
-    </script>
-<style>
-        .glow-text {
-            text-shadow: 0 0 20px rgba(0, 255, 157, 0.5);
-        }
-        .glow-border {
-            box-shadow: 0 0 15px rgba(0, 255, 157, 0.2);
-        }
-        .terminal-bg {
-            background: linear-gradient(180deg, #0a1114 0%, #05080a 100%);
-        }
-        .scanline {
-            width: 100%;
-            height: 2px;
-            background: rgba(0, 255, 157, 0.1);
-            position: absolute;
-            animation: scanline 6s linear infinite;
-        }
-        @keyframes scanline {
-            0% { top: 0; }
-            100% { top: 100%; }
-        }
-        .grid-bg {
-            background-size: 40px 40px;
-            background-image: linear-gradient(to right, rgba(0, 255, 157, 0.05) 1px, transparent 1px),
-                              linear-gradient(to bottom, rgba(0, 255, 157, 0.05) 1px, transparent 1px);
-        }
-    </style>
 
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+
+<script>
+tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      colors: {
+        primary: "#00FF00", /* ✅ HIJAU DASAR */
+        "background-light": "#f8fafc",
+        "background-dark": "#05080a",
+        "accent-dark": "#0a1114",
+        "border-dark": "#1a2c33",
+      },
+      fontFamily: {
+        display: ["Space Grotesk", "sans-serif"],
+        mono: ["JetBrains Mono", "monospace"],
+      },
+      borderRadius: {
+        DEFAULT: "4px",
+      },
+      backgroundImage: {
+        'grid-pattern': "radial-gradient(circle, #00FF00 1px, transparent 1px)",
+      },
+    },
+  },
+};
+</script>
+
+<style>
+.glow-text {
+  text-shadow: 0 0 20px rgba(0, 255, 0, 0.6);
+}
+.glow-border {
+  box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+}
+.terminal-bg {
+  background: linear-gradient(180deg, #0a1114 0%, #05080a 100%);
+}
+.scanline {
+  width: 100%;
+  height: 2px;
+  background: rgba(0, 255, 0, 0.1);
+  position: absolute;
+  animation: scanline 6s linear infinite;
+}
+@keyframes scanline {
+  0% { top: 0; }
+  100% { top: 100%; }
+}
+.grid-bg {
+  background-size: 40px 40px;
+  background-image:
+    linear-gradient(to right, rgba(0, 255, 0, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 255, 0, 0.05) 1px, transparent 1px);
+}
+</style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-300 font-display selection:bg-primary selection:text-black">
 
 <div class="border-b border-border-dark bg-black/50 backdrop-blur-md sticky top-0 z-50">
 <div class="max-w-7xl mx-auto px-4 h-10 flex items-center justify-between text-[10px] font-mono tracking-widest text-slate-500 uppercase">
@@ -76,11 +83,12 @@
 <span>STATUS: <span class="text-primary flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span> LIVE</span></span>
 </div>
 </div>
+
 <nav class="border-t border-border-dark px-4 py-4">
 <div class="max-w-7xl mx-auto flex items-center justify-between">
 <div class="flex items-center gap-2">
 <span class="material-icons text-primary text-3xl">terminal</span>
-<span class="text-2xl font-bold tracking-tighter text-slate-900 dark:text-white uppercase">CODEXCLAW</span>
+<span class="text-2xl font-bold tracking-tighter text-white uppercase">CODEXCLAW</span>
 </div>
 <div class="hidden md:flex items-center gap-8 text-sm font-medium uppercase tracking-wider">
 <a class="text-primary" href="#">Home</a>
@@ -92,9 +100,11 @@
 </div>
 </nav>
 </div>
+
 <section class="relative pt-20 pb-32 overflow-hidden grid-bg">
 <div class="absolute inset-0 bg-gradient-to-b from-transparent via-background-dark/50 to-background-dark"></div>
 <div class="relative z-10 max-w-4xl mx-auto text-center px-4">
+
 <div class="inline-block mb-8">
 <div class="relative w-24 h-24 mx-auto">
 <div class="absolute inset-0 border-2 border-primary rotate-45 animate-[spin_10s_linear_infinite]"></div>
@@ -104,122 +114,26 @@
 </div>
 </div>
 </div>
+
 <div class="uppercase text-xs tracking-[0.3em] text-primary mb-4 font-mono">▶ SOLANA ECOSYSTEM TOOLKIT</div>
 <h1 class="text-7xl md:text-9xl font-black text-primary mb-6 glow-text tracking-tight uppercase italic">CODEXCLAW</h1>
+
 <p class="text-lg md:text-xl text-slate-400 font-mono mb-10 max-w-2xl mx-auto leading-relaxed">
-                The ultimate degen toolkit for Solana. Scan tokens, detect rugs, snipe launches, track wallets — all from a single cockpit terminal.
-            </p>
+The ultimate degen toolkit for Solana. Scan tokens, detect rugs, snipe launches, track wallets — all from a single cockpit terminal.
+</p>
+
 <div class="flex flex-col sm:flex-row gap-4 justify-center">
 <button class="bg-primary text-black px-10 py-4 rounded font-bold uppercase tracking-widest hover:scale-105 transition-transform flex items-center justify-center gap-2">
-                    LAUNCH TERMINAL <span class="material-icons text-sm">arrow_forward</span>
+LAUNCH TERMINAL <span class="material-icons text-sm">arrow_forward</span>
 </button>
+
 <button class="border border-border-dark text-slate-400 px-10 py-4 rounded font-bold uppercase tracking-widest hover:border-primary hover:text-white transition-all">
-                    READ DOCS
-                </button>
+READ DOCS
+</button>
 </div>
+
 </div>
 </section>
-<section class="max-w-7xl mx-auto px-4 py-20">
-<div class="mb-4 flex items-center gap-2 text-xs font-mono text-slate-500 uppercase tracking-widest">
-            LIVE COCKPIT TERMINAL
-        </div>
-<div class="bg-accent-dark border border-border-dark rounded overflow-hidden relative shadow-2xl">
-<div class="scanline"></div>
-<div class="border-b border-border-dark bg-black/40 px-4 py-2 flex items-center justify-between">
-<div class="flex items-center gap-4">
-<div class="flex gap-1.5">
-<div class="w-2.5 h-2.5 rounded-full bg-red-500/50"></div>
-<div class="w-2.5 h-2.5 rounded-full bg-yellow-500/50"></div>
-<div class="w-2.5 h-2.5 rounded-full bg-green-500/50"></div>
-</div>
-<span class="text-[10px] font-mono text-slate-500">codexclaw@solana — cockpit v2.0.6</span>
-</div>
-<div class="text-[10px] font-mono text-slate-500 flex gap-4 uppercase">
-<span>TPS: <span class="text-primary">2894</span></span>
-<span>BLOCK: <span class="text-primary">284,729,185</span></span>
-<span class="flex items-center gap-1"><span class="w-1 h-1 rounded-full bg-primary"></span> CONNECTED</span>
-</div>
-</div>
-<div class="grid grid-cols-12 h-[500px]">
-<div class="col-span-12 md:col-span-3 border-r border-border-dark p-4 flex flex-col gap-6">
-<div>
-<div class="text-[10px] font-mono text-slate-500 mb-4 uppercase">NETWORK RADAR</div>
-<div class="aspect-square relative flex items-center justify-center border border-primary/20 rounded-full">
-<div class="absolute inset-0 border border-primary/10 rounded-full scale-75"></div>
-<div class="absolute inset-0 border border-primary/5 rounded-full scale-50"></div>
-<div class="w-full h-px bg-primary/20 absolute rotate-0"></div>
-<div class="w-full h-px bg-primary/20 absolute rotate-90"></div>
-<div class="w-2 h-2 bg-primary rounded-full absolute top-1/4 right-1/4 animate-pulse"></div>
-<div class="w-1.5 h-1.5 bg-primary/60 rounded-full absolute bottom-1/3 left-1/4"></div>
-</div>
-</div>
-<div>
-<div class="text-[10px] font-mono text-slate-500 mb-2 uppercase">TOKEN STATS</div>
-<div class="space-y-1 font-mono text-[10px]">
-<div class="flex justify-between"><span>$CLAW</span> <span class="text-primary">$0.00234</span></div>
-<div class="flex justify-between"><span>24h</span> <span class="text-primary">+42.3%</span></div>
-<div class="flex justify-between"><span>Holders</span> <span class="text-primary">3,847</span></div>
-<div class="flex justify-between"><span>MCap</span> <span class="text-primary">$234K</span></div>
-<div class="flex justify-between"><span>LP</span> <span class="text-orange-500">BURNED</span></div>
-<div class="flex justify-between"><span>Mint</span> <span class="text-red-500">REVOKED</span></div>
-</div>
-</div>
-</div>
-<div class="col-span-12 md:col-span-6 p-4 font-mono overflow-hidden flex flex-col">
-<div class="flex gap-4 border-b border-border-dark/50 mb-4 pb-2 text-[10px] text-slate-500">
-<span class="text-primary border-b border-primary pb-2 -mb-2.5">MAIN</span>
-<span>SCAN</span>
-<span>SNIPE</span>
-<span>LOG</span>
-</div>
-<pre class="text-primary text-[6px] md:text-[8px] leading-none mb-6">  ██████╗ ██████╗ ██████╗ ███████╗██╗  ██╗ ██████╗██╗      █████╗ ██╗    ██╗
- ██╔════╝██╔═══██╗██╔══██╗██╔════╝╚██╗██╔╝██╔════╝██║     ██╔══██╗██║    ██║
- ██║     ██║   ██║██║  ██║█████╗   ╚███╔╝ ██║     ██║     ███████║██║ █╗ ██║
- ██║     ██║   ██║██║  ██║██╔══╝   ██╔██╗ ██║     ██║     ██╔══██║██║███╗██║
- ╚██████╗╚██████╔╝██████╔╝███████╗██╔╝ ██╗╚██████╗███████╗██║  ██║╚███╔███╔╝
-  ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝╚═╝  ╚═╝ ╚═════╝╚══════╝╚═╝  ╚═╝ ╚══╝╚══╝ 
-                    </pre>
-<div class="text-[10px] space-y-1">
-<div class="text-slate-500 uppercase">CODEXCLAW COCKPIT v2.0.6 // SOLANA MAINNET</div>
-<div class="text-slate-600">-------------------------------------------</div>
-<div class="text-slate-300">&gt; System online. Type "help" for commands.</div>
-</div>
-<div class="mt-auto flex items-center gap-2 text-[10px]">
-<span class="text-primary">) claw ~</span>
-<input autofocus="" class="bg-transparent border-none focus:ring-0 text-slate-300 p-0 w-full font-mono text-[10px]" placeholder="type a command..." type="text"/>
-</div>
-</div>
-<div class="col-span-12 md:col-span-3 border-l border-border-dark p-4 flex flex-col gap-6 overflow-hidden">
-<div class="flex-1 overflow-hidden">
-<div class="text-[10px] font-mono text-slate-500 mb-4 uppercase">LIVE FEED</div>
-<div class="space-y-3 font-mono text-[9px]">
-<div class="flex justify-between items-start gap-2">
-<span class="text-primary">█ $POPCAT +131%</span>
-<span class="text-slate-600 shrink-0">08:04:21 PM</span>
-</div>
-<div class="flex justify-between items-start gap-2">
-<span class="text-yellow-500">ϟ Launch: $MYRO</span>
-<span class="text-slate-600 shrink-0">08:04:21 PM</span>
-</div>
-<div class="flex justify-between items-start gap-2">
-<span class="text-primary">🔒 LP lock: $WIF</span>
-<span class="text-slate-600 shrink-0">08:04:21 PM</span>
-</div>
-<div class="flex justify-between items-start gap-2">
-<span class="text-red-500">⚠ Rug risk: $PNUT</span>
-<span class="text-slate-600 shrink-0">08:04:21 PM</span>
-</div>
-<div class="flex justify-between items-start gap-2">
-<span class="text-green-500">✓ Scan OK: $MEW</span>
-<span class="text-slate-600 shrink-0">08:04:21 PM</span>
-</div>
-<div class="flex justify-between items-start gap-2">
-<span class="text-orange-500">🔥 LP burned: $MYRO</span>
-<span class="text-slate-600 shrink-0">08:04:25 PM</span>
-</div>
-</div>
-</div>
-<div>
-<div class="text-[10px] font-mono text-slate-500 mb-2 uppercase">MATRIX</div>
-<div class="h-24 bg-black border border-border-dark relative overflow-hidden flex justify-around p-2 opacity-50">
-<div class="flex flex-col text-[8px] text-primary/40 leading-none"><span>)</span><span></span></div></div></div></div></div></div></section></body></html>
+
+</body>
+</html>
