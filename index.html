@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Apple (Clone)</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'apple-gray': '#f5f5f7',
+                        'apple-blue': '#0071e3',
+                        'apple-dark': '#1d1d1f',
+                    },
+                    fontFamily: {
+                        sans: ['-apple-system', 'BlinkMacSystemFont', '"SF Pro Display"', '"Segoe UI"', 'Roboto', '"Helvetica Neue"', 'Arial', 'sans-serif'],
+                    },
+                    keyframes: {
+                        fadeUp: {
+                            '0%': { opacity: '0', transform: 'translateY(30px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                    },
+                    animation: {
+                        'fade-up': 'fadeUp 0.7s ease forwards',
+                        'fade-in': 'fadeIn 0.5s ease forwards',
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: #fff;
+            color: #1d1d1f;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .product-heading {
+            letter-spacing: -0.02em;
+        }
+
+        /* Nav blur effect */
+        nav {
+            backdrop-filter: saturate(180%) blur(20px);
+            background-color: rgba(22, 22, 23, 0.85);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            transition: background-color 0.3s ease;
+        }
+
+        /* Hide scrollbar for TV slider */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Scroll reveal animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                        transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+
+        /* Button styles */
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            background-color: #0071e3;
+            color: #fff;
+            padding: 0.5rem 1.25rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: background-color 0.2s ease, transform 0.15s ease;
+            white-space: nowrap;
+        }
+        .btn-primary:hover {
+            background-color: #0077ed;
+            transform: scale(1.02);
+        }
+        .btn-primary:active { transform: scale(0.98); }
+
+        .btn-outline {
+            display: inline-flex;
+            align-items: center;
+            border: 1.5px solid #0071e3;
+            color: #0071e3;
+            padding: 0.5rem 1.25rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: background-color 0.2s ease, color 0.2s ease, transform 0.15s ease;
+            white-space: nowrap;
+        }
+        .btn-outline:hover {
+            background-color: #0071e3;
+            color: #fff;
+            transform: scale(1.02);
+        }
+        .btn-outline:active { transform: scale(0.98); }
+
+        .btn-outline-white {
+            display: inline-flex;
+            align-items: center;
+            border: 1.5px solid rgba(255,255,255,0.7);
+            color: #fff;
+            padding: 0.5rem 1.25rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+        }
+        .btn-outline-white:hover {
+            background-color: rgba(255,255,255,0.15);
+            border-color: #fff;
+            transform: scale(1.02);
+        }
+        .btn-outline-white:active { transform: scale(0.98); }
+
+        /* Section divider */
+        .section-divider {
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+
+        /* Product card hover */
+        .product-card {
+            transition: transform 0.3s ease;
+        }
+        .product-card:hover {
+            transform: translateY(-4px);
+        }
+
+        /* Footer accordion */
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .accordion-content.open {
+            max-height: 500px;
+        }
+        .accordion-icon {
+            transition: transform 0.3s ease;
+            font-size: 1.1rem;
+            line-height: 1;
+        }
+        .accordion-icon.open {
+            transform: rotate(45deg);
+        }
+
+        /* Image scale on hover for product sections */
+        .product-image {
+            transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .product-image:hover {
+            transform: scale(1.02);
+        }
+
+        /* Gradient overlays for dark sections */
+        .hero-gradient-overlay {
+            background: linear-gradient(to bottom, transparent 60%, rgba(0,0,0,0.4) 100%);
+        }
+
+        /* Typography scale improvements */
+        .text-hero { font-size: clamp(2rem, 5vw, 3.5rem); }
+        .text-hero-sub { font-size: clamp(1.1rem, 2.5vw, 1.4rem); }
+    </style>
+</head>
+
+<body class="overflow-x-hidden">
+    <!-- BEGIN: GlobalNavigation -->
+    <nav class="fixed top-0 w-full z-50 h-[48px] flex items-center justify-between px-4 text-white">
+        <div class="flex items-center w-full justify-between max-w-screen-xl mx-auto">
+            <!-- Apple Logo -->
+            <a class="opacity-80 hover:opacity-100 transition-opacity flex-shrink-0" href="#">
+                <svg fill="currentColor" height="44" viewBox="0 0 14 44" width="14" xmlns="http://www.w3.org/2000/svg">
+                    <path d="m13.0729 17.6825a3.61 3.61 0 0 0 -1.7248 3.0335 3.5132 3.5132 0 0 0 2.1379 3.2223 8.3051 8.3051 0 0 1 -1.0926 2.2693c-.744 1.0914-1.5191 2.1793-2.7408 2.1793s-1.5163-1.0125-2.9123-1.0125c-1.3934 0-1.8986 1.0125-3.0016 1.0125s-1.8413-1.0125-2.6738-2.1793a12.016 12.016 0 0 1 -2.0649-6.3155c0-3.7563 2.4357-5.7369 4.8251-5.7369 1.2646 0 2.3385.83 3.1251.83.7741 0 2.0535-1.0125 3.5255-1.0125a3.4611 3.4611 0 0 1 2.6224 1.7101zm-4.7063-4.14a3.1559 3.1559 0 0 0 .7362-2.1581 3.3213 3.3213 0 0 0 -2.1451 1.088 3.0567 3.0567 0 0 0 -.7766 2.1036 2.7686 2.7686 0 0 0 2.1855-1.0335z"></path>
+                </svg>
+            </a>
+
+            <!-- Desktop nav links -->
+            <div class="hidden md:flex items-center space-x-6 text-[13px] opacity-80">
+                <a class="hover:opacity-100 transition-opacity" href="about.html">About</a>
+                <a class="hover:opacity-100 transition-opacity" href="#">Mac</a>
+                <a class="hover:opacity-100 transition-opacity" href="#">iPad</a>
+                <a class="hover:opacity-100 transition-opacity" href="#">iPhone</a>
+                <a class="hover:opacity-100 transition-opacity" href="#">Watch</a>
+                <a class="hover:opacity-100 transition-opacity" href="#">TV &amp; Home</a>
+                <a class="hover:opacity-100 transition-opacity" href="#">Support</a>
+            </div>
+
+            <!-- Right icons -->
+            <div class="flex items-center space-x-5">
+                <a class="opacity-80 hover:opacity-100 transition-opacity" href="#">
+                    <svg fill="none" height="15" stroke="currentColor" stroke-width="1.5" viewBox="0 0 15 15" width="15" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="7" cy="7" r="5"></circle>
+                        <path d="M11 11L13.5 13.5"></path>
+                    </svg>
+                </a>
+                <a class="opacity-80 hover:opacity-100 transition-opacity" href="#">
+                    <svg fill="none" height="16" stroke="currentColor" stroke-width="1.2" viewBox="0 0 14 16" width="14" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 4V3C4 1.34315 5.34315 0 7 0C8.65685 0 10 1.34315 10 3V4M2 4H12C12.5523 4 13 4.44772 13 5V14C13 14.5523 12.5523 15 12 15H2C1.44772 15 1 14.5523 1 14V5C1 4.44772 1.44772 4 2 4Z"></path>
+                    </svg>
+                </a>
+                <a class="opacity-80 hover:opacity-100 transition-opacity md:hidden" href="#">
+                    <svg fill="none" height="18" stroke="currentColor" stroke-width="1.5" viewBox="0 0 18 18" width="18" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M2 6H16M2 12H16"></path>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </nav>
+    <!-- END: GlobalNavigation -->
+
+    <main class="mt-[48px]">
+        <!-- BEGIN: Hero_MacBookNeo -->
+        <section class="bg-apple-gray section-divider pt-16 pb-0 flex flex-col items-center text-center overflow-hidden">
+            <div class="reveal">
+                <h2 class="text-hero font-semibold product-heading">MacBook Neo</h2>
+                <p class="text-hero-sub mt-2 text-apple-dark/80">Amazing filter. Surprising price.</p>
+                <p class="text-gray-400 text-[13px] mt-1.5">Available starting 2.11</p>
+                <div class="flex items-center justify-center gap-3 mt-6">
+                    <a class="btn-primary" href="#">Learn more</a>
+                    <a class="btn-outline" href="#">Pre-order</a>
+                </div>
+            </div>
+            <div class="reveal reveal-delay-2 mt-10 w-full max-w-[420px]">
+                <img alt="MacBook Neo" class="w-full h-auto product-image" loading="lazy"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-UP2-KzDrVA8QTlhd8kz13RbuH_xDu-ClK0tTDZPv9bdqIda25KcBNYBjV2nZNaU-j2M_a6buJWqadOt9JcjeottrbGtGC1bhbqWX_upYlKqDD4tTMe0ECCCHzWF2DijVg41TbWdHn2jJiXbEbn6pWePI92uNlGTI-8jXonrr-NrJypPdQMt4zSZzJ4RL7XjujJUbLErWk_qwxrNVYwUlPG5mDP9vAMgdaahBkgNyiMaJEiTAF4CLlA6g1qTTu5lXZVZjmJkuTyU" />
+            </div>
+        </section>
+        <!-- END: Hero_MacBookNeo -->
+
+        <!-- BEGIN: Hero_iPhone17e -->
+        <section class="bg-white section-divider pt-16 pb-0 flex flex-col items-center text-center overflow-hidden">
+            <div class="reveal">
+                <h2 class="text-hero font-semibold product-heading">iPhone 17e</h2>
+                <p class="text-hero-sub mt-2 text-apple-dark/80">Feature-packed. Value-packed.</p>
+                <p class="text-gray-400 text-[13px] mt-1.5">Available starting 2.11</p>
+                <div class="flex items-center justify-center gap-3 mt-6">
+                    <a class="btn-primary" href="#">Learn more</a>
+                    <a class="btn-outline" href="#">Pre-order</a>
+                </div>
+            </div>
+            <div class="reveal reveal-delay-2 mt-10 w-full max-w-[420px]">
+                <img alt="iPhone 17e" class="w-full h-auto product-image" loading="lazy"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuD0X4n-Xmsg2g-fJuT0J7RuuRN-tAXGNitj-ygORCkQquDNfAi1s1aS0NwVOELsDhyryczTeUS9co9vA1lBDQnv1cROqFvDZilEg0lWDfBOK7_WaYMIUSy9-1HkdN0ckedunLZoJdhzgpfYx2Ryusak7_Dllrynl9nQJgS-3-wSmeI9ZXZQ2UL2RKuoz5kOsTsShxYvkStifypAms0GMvSBb0YEd7ksA6pIpCCmk0YaHiRfYxu79MOSkX5nb37qpWfzKMS4k9COLe8" />
+            </div>
+        </section>
+        <!-- END: Hero_iPhone17e -->
+
+        <!-- BEGIN: Hero_MacBookPro -->
+        <section class="bg-[#0a0a0a] text-white section-divider pt-16 pb-0 flex flex-col items-center text-center overflow-hidden">
+            <div class="reveal">
+                <p class="text-[13px] font-medium tracking-widest uppercase text-apple-blue mb-3">New</p>
+                <h2 class="text-hero font-semibold product-heading">MacBook Pro</h2>
+                <p class="text-hero-sub mt-2 text-white/70">Now with M4, M4 Pro, and M4 Max.</p>
+                <p class="text-gray-500 text-[13px] mt-1.5">New colors available starting 2.11</p>
+                <div class="flex items-center justify-center gap-3 mt-6">
+                    <a class="btn-primary" href="#">Learn more</a>
+                    <a class="btn-outline-white" href="#">Buy now</a>
+                </div>
+            </div>
+            <div class="reveal reveal-delay-2 mt-12 w-full max-w-[540px]">
+                <img alt="MacBook Pro M4" class="w-full h-auto product-image" loading="lazy"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCXATLJGA5BE3uMEf3W5jWWrCoAU2fgo0mcb6oNbsxLGrjiE8DnybmDwg6La6pp--U9BmXvP5Apym80KezR8ZTfYkIK2GHnGR8_0JiEBfHIh_ruPOGVYcvfHc92Xh0d2fwBcRbhvRLYCZOQqGKuH8VKDdalDvvfpyF32JK-aC7qP20bfhOHZkjak4zpFMxAw7xKVOlNZlXYCasdI_TRaBIbvNVQzZ8rzmM41zZh_XMa9KlX2hHRgP58_5A8i8jtsJjJadh5SxIkiCM" />
+            </div>
+        </section>
+        <!-- END: Hero_MacBookPro -->
+
+        <!-- BEGIN: Product Grid (2-column) -->
+        <div class="bg-[#f5f5f7] section-divider py-2 grid grid-cols-1 md:grid-cols-2">
+
+            <!-- MacBook Air -->
+            <section class="bg-white m-2 rounded-2xl pt-10 pb-0 flex flex-col items-center text-center overflow-hidden product-card">
+                <div class="reveal px-6">
+                    <h2 class="text-[28px] font-semibold product-heading leading-tight">MacBook Air</h2>
+                    <p class="text-[17px] mt-1.5 text-apple-dark/80">Now supercharged by M3.</p>
+                    <p class="text-gray-400 text-[13px] mt-1">Available starting 2.11</p>
+                    <div class="flex items-center justify-center gap-3 mt-5 mb-8">
+                        <a class="btn-primary" href="#">Learn more</a>
+                        <a class="btn-outline" href="#">Pre-order</a>
+                    </div>
+                </div>
+                <div class="reveal reveal-delay-1 w-full max-w-[300px]">
+                    <img alt="MacBook Air" class="w-full h-auto" loading="lazy"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuBVo3qrIAzPFAFYPRxS2OHMeVsONtyASc4mJdp8tOzlpXpOCCb_ni6aYiaZ1kii07yVhzrIeqRvKaIPuqtZzKjVPNPDgMQ23-7GmjTdNPBeG9gnRpisUTG5QL_cb-yhLFoJ8rT56V8uDFHfsLJB7NqDXqVoX5KCMBmGJ9xeuMjpz5soeVy_MXdPNsevkCrDeXUjs1xOYmerUcMgmK13R49fyoay3OE-WXJW-4KIljZFF92aUjLsYPn2pT2bk3iQ5eL3M4QaCivHfHM" />
+                </div>
+            </section>
+
+            <!-- iPad Air -->
+            <section class="bg-[#d5e8f4] m-2 rounded-2xl pt-10 pb-0 flex flex-col items-center text-center overflow-hidden product-card">
+                <div class="reveal px-6">
+                    <h2 class="text-[28px] font-semibold product-heading leading-tight">iPad Air</h2>
+                    <p class="text-[17px] mt-1.5 text-apple-dark/80">Now supercharged by M2.</p>
+                    <p class="text-[#1d1d1f]/50 text-[13px] mt-1">Available starting 2.11</p>
+                    <div class="flex items-center justify-center gap-3 mt-5 mb-8">
+                        <a class="btn-primary" href="#">Learn more</a>
+                        <a class="btn-outline" href="#">Pre-order</a>
+                    </div>
+                </div>
+                <div class="reveal reveal-delay-1 w-full max-w-[260px]">
+                    <img alt="iPad Air" class="w-full h-auto mb-4" loading="lazy"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHO1PUc-Z8I8RuvHeqDVtvZFRH-lRvJYfoeSjnEToHVYRvMQgrqESIhxJwr4Uns6Lb6j3PsgwTVuw_OsbuLsdOZpHCrzdsFmVruW1aj13hswksfDAcYiM13_izBaPJG0-osrBNdCIbedp7reCP9OMairIdxjhpwOXfX9R4vgWKs3QzpJMUi8yvfcdR1kO0Tk1tyrdlLN8G2z_9pZCoa7oKbbfbM5zmnOkcOCQG4xWfyYcWrDIo0uNMMMBdNeEX5CMyUV-xu9lxNi4" />
+                </div>
+            </section>
+
+            <!-- iPhone 17 Pro -->
+            <section class="bg-[#1c1c1e] text-white m-2 rounded-2xl pt-10 pb-0 flex flex-col items-center text-center overflow-hidden product-card">
+                <div class="reveal px-6">
+                    <h2 class="text-[28px] font-semibold product-heading leading-tight">iPhone 17 Pro</h2>
+                    <p class="text-[17px] mt-1.5 text-white/70">All out Pro.</p>
+                    <div class="flex items-center justify-center gap-3 mt-5 mb-8">
+                        <a class="btn-primary" href="#">Learn more</a>
+                        <a class="btn-outline-white" href="#">Buy</a>
+                    </div>
+                </div>
+                <div class="reveal reveal-delay-1 w-full max-w-[340px]">
+                    <img alt="iPhone 17 Pro Camera" class="w-full h-auto" loading="lazy"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuBQpDsCNH66SzqnduJydR5OGFhCw9Xy9rL25qqUdjz7ktHZ9mfi6cu1wEWc8m3tQZTkWqitovGGc1iMd5as_A-oH9KCWGpSRzYPbWFj0Da34LxoyYukXhbVY76UEBKmVu1F5tL5Ji1O5O1TPOoWBOp_lcbzljydxuDIjODkQzo16_PBUuSNQbOf-v7AOmU9s2FUZCcFAcwxpykQrnFT1F9e3z3xfXWudPqBdTJPV3GHGwU5zjtAwahpqLuogDQgYDkvcmjtYfkLx7c" />
+                </div>
+            </section>
+
+            <!-- Apple Watch -->
+            <section class="bg-[#f0f0f5] m-2 rounded-2xl pt-10 pb-0 flex flex-col items-center text-center overflow-hidden product-card">
+                <div class="reveal px-6">
+                    <div class="flex items-center justify-center space-x-1.5 mb-1">
+                        <svg fill="currentColor" height="20" viewBox="0 0 44 44" width="20">
+                            <path d="m13.0729 17.6825a3.61 3.61 0 0 0 -1.7248 3.0335 3.5132 3.5132 0 0 0 2.1379 3.2223 8.3051 8.3051 0 0 1 -1.0926 2.2693c-.744 1.0914-1.5191 2.1793-2.7408 2.1793s-1.5163-1.0125-2.9123-1.0125c-1.3934 0-1.8986 1.0125-3.0016 1.0125s-1.8413-1.0125-2.6738-2.1793a12.016 12.016 0 0 1 -2.0649-6.3155c0-3.7563 2.4357-5.7369 4.8251-5.7369 1.2646 0 2.3385.83 3.1251.83.7741 0 2.0535-1.0125 3.5255-1.0125a3.4611 3.4611 0 0 1 2.6224 1.7101zm-4.7063-4.14a3.1559 3.1559 0 0 0 .7362-2.1581 3.3213 3.3213 0 0 0 -2.1451 1.088 3.0567 3.0567 0 0 0 -.7766 2.1036 2.7686 2.7686 0 0 0 2.1855-1.0335z"></path>
+                        </svg>
+                        <span class="text-[18px] font-bold tracking-wide">WATCH</span>
+                        <span class="text-[10px] font-semibold text-red-500 uppercase tracking-wider pt-1">Series 11</span>
+                    </div>
+                    <p class="text-[17px] mt-1.5 text-apple-dark/80 max-w-[200px] mx-auto leading-snug">The ultimate way to watch your health.</p>
+                    <div class="flex items-center justify-center gap-3 mt-5 mb-8">
+                        <a class="btn-primary" href="#">Learn more</a>
+                        <a class="btn-outline" href="#">Buy</a>
+                    </div>
+                </div>
+                <div class="reveal reveal-delay-1 w-full max-w-[320px]">
+                    <img alt="Apple Watch Series 11" class="w-full h-auto" loading="lazy"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuDkoBxU-G8jQHG9G2L53U0o1Zr6SvjoWqldm1FcDyHiAaI7mlikHxJx15HXK-Zc8SSCgne62wK0IQbPiXR_3ayf3o8tkgesnll35DNSE4X7Gx7bHZXd1fLcjzNDixAKLgMK13ZhscQQaByuwKGK_soJXulPhjzk5bwqhDo9TDjza6cx4R17itFx6J1G0VeQxxCAi2Y9EH5taO5T4j3ZvSsOypuWvHNg16m_5ewlLF976qYecPFH3HAEDi7CEUD2sCzEqIi1mmo3HFw" />
+                </div>
+            </section>
+        </div>
+        <!-- END: Product Grid -->
+
+        <!-- BEGIN: TradeIn -->
+        <section class="bg-white section-divider pt-16 pb-0 flex flex-col items-center text-center overflow-hidden">
+            <div class="reveal">
+                <div class="flex items-center justify-center space-x-1.5 mb-3">
+                    <svg fill="currentColor" height="22" viewBox="0 0 44 44" width="22">
+                        <path d="m13.0729 17.6825a3.61 3.61 0 0 0 -1.7248 3.0335 3.5132 3.5132 0 0 0 2.1379 3.2223 8.3051 8.3051 0 0 1 -1.0926 2.2693c-.744 1.0914-1.5191 2.1793-2.7408 2.1793s-1.5163-1.0125-2.9123-1.0125c-1.3934 0-1.8986 1.0125-3.0016 1.0125s-1.8413-1.0125-2.6738-2.1793a12.016 12.016 0 0 1 -2.0649-6.3155c0-3.7563 2.4357-5.7369 4.8251-5.7369 1.2646 0 2.3385.83 3.1251.83.7741 0 2.0535-1.0125 3.5255-1.0125a3.4611 3.4611 0 0 1 2.6224 1.7101zm-4.7063-4.14a3.1559 3.1559 0 0 0 .7362-2.1581 3.3213 3.3213 0 0 0 -2.1451 1.088 3.0567 3.0567 0 0 0 -.7766 2.1036 2.7686 2.7686 0 0 0 2.1855-1.0335z"></path>
+                    </svg>
+                    <span class="text-[22px] font-semibold">Trade In</span>
+                </div>
+                <p class="text-[17px] max-w-[300px] leading-snug text-apple-dark/80">Get up to <span class="font-medium">$180–$650</span> in credit when you trade in iPhone&nbsp;13 or higher.</p>
+                <div class="mt-6 mb-10">
+                    <a class="btn-primary" href="#">See your estimate</a>
+                </div>
+            </div>
+            <div class="reveal reveal-delay-1 w-full max-w-screen-md overflow-hidden">
+                <img alt="iPhone Trade In" class="w-full h-auto product-image" loading="lazy"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuDPNoaRBxETl8TTL2o7tXcQ00cwmF2-vTV0UpX7fBd7tA2-9vzzIgGq_oPAOZT9TWiECet-TcNwjeK8MJSFiRksZY7RBXsL1X_59Zlg0yRyPVH0GOH7VPyNESZIk1d3KggO0AGp-o11gEJt59ejA43g-LjvP2UR5Srq_yFKmqBojHbF36YyVQrumrK4-gMxta-wpyGy3BSSyd1JAOsBP7Fug-uwgv4heP4NMkyv_PSQ_xU6mSxNRuVofbZlwe4BOD7xFw5f2TtTsi4" />
+            </div>
+        </section>
+        <!-- END: TradeIn -->
+
+        <!-- BEGIN: CarrierDeals -->
+        <section class="bg-apple-gray section-divider pt-16 pb-0 flex flex-col items-center text-center overflow-hidden">
+            <div class="reveal px-6">
+                <h2 class="text-[32px] md:text-[40px] font-bold product-heading leading-tight">Any condition<br>carrier deals are here.</h2>
+                <p class="text-[17px] mt-3 max-w-[320px] mx-auto leading-snug text-apple-dark/70">Select carriers accept eligible trade-in devices in any condition. Other offers available.</p>
+                <div class="mt-6 mb-10">
+                    <a class="btn-primary" href="#">Find your deal</a>
+                </div>
+            </div>
+            <div class="reveal reveal-delay-1 w-full max-w-screen-md overflow-hidden">
+                <img alt="Carrier Deals" class="w-full h-auto product-image" loading="lazy"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuDDZ2X8akJiCAyYAL4KaH5YeMA_ITUIKEHKKtFPnHd3lVrsYmSOzn7rCPpIfh3jjZ-k972X_Li8qADDXM5YIU6SGRHUmLHfs6WZ4bvxpfjj4ByFLD3CkuODR8au3PJyR96ATk-E2Kq6HOMhS17by837kSgTLk0u_FcrCWPZBZhQEDK0CGKPrEg7lPHgsuOSxUAn0e7PJovejwO9_sunQ0BBNy0n_Gmi6jZof7yZzTkZ1PVwQVCBjYUq9SBDVkLQnOHX_UntemKxfA" />
+            </div>
+        </section>
+        <!-- END: CarrierDeals -->
+
+        <!-- BEGIN: AppleTVPlus_Slider -->
+        <section class="bg-white section-divider pt-14 pb-10 flex flex-col items-center">
+            <div class="reveal w-full px-5 max-w-screen-xl mx-auto">
+                <h2 class="text-[26px] font-semibold mb-1 text-center">Endless entertainment.</h2>
+                <p class="text-[15px] text-gray-500 text-center mb-7">Stream on Apple TV+</p>
+            </div>
+            <div class="w-full overflow-x-auto flex snap-x snap-mandatory no-scrollbar gap-4 px-5">
+                <!-- Slide 1 -->
+                <div class="min-w-[80%] sm:min-w-[45%] snap-center relative aspect-[2/3] bg-black rounded-2xl overflow-hidden shadow-lg">
+                    <img alt="Monarch Movie Poster" class="w-full h-full object-cover opacity-85 transition-transform duration-500 hover:scale-105"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuAiYInVuLZLBktSXJdHc22mneu1o8vemTB2Hti-WJvcNgd9F0fPfki9MvePlBr23LozbU8Yvo2NzCV9UUKIGc8OdyNsyFARTtiCuPU-vUVBCg-a8pDRCEVcWT5WBIQixElXmsZssqmomjYNyOxWNtj2cj5Bmza5IijQ8t6CFRn4s0R5iMK4ahFbsXuq3QTkQ-Ia9Lh_A6gqdS3QaRjZ5AtcrjbYUSxqlRjRQrMhGOvAJ1Ox1mYGKn_IMnhTNk7aEnrV8BDi9umlrDg" />
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
+                    <div class="absolute bottom-6 left-0 right-0 text-center">
+                        <p class="text-white/80 text-xs font-medium mb-2 uppercase tracking-wider">Adventure · Now playing</p>
+                        <button class="bg-white text-black px-7 py-2 rounded-full text-xs font-semibold hover:bg-white/90 transition-colors">Watch now</button>
+                    </div>
+                </div>
+                <!-- Slide 2 -->
+                <div class="min-w-[80%] sm:min-w-[45%] snap-center relative aspect-[2/3] bg-gray-900 rounded-2xl overflow-hidden shadow-lg">
+                    <img alt="Foundation Series" class="w-full h-full object-cover opacity-85 transition-transform duration-500 hover:scale-105"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuAC6UeTg1wiCX-lObqdNPx8PkCH0YMpSEmPB_h8CHV_V3qv0OlNz0u0Lk1wVDyggzPf47xgJnynbZiQ-bt0B4jAYkwmFdBepWGhom0pj-3a-2a4xQMHXpdXfcufWscv0nbds0QPmz0r8YYbd3oO5V7OoYFdu2pdFGm0nfO-9mUuZMto76RLcmXq21LYamyh-LOIHrHbQ8EsZ_7J0-lbuEMk9shbKEgSzhX1nJ-7eq3ixdOrZV2aROYX5hurVCw0M5J9S8LfnVPFAlg" />
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
+                    <div class="absolute bottom-6 left-0 right-0 text-center">
+                        <p class="text-white/80 text-xs font-medium mb-2 uppercase tracking-wider">Sci-Fi · New Season</p>
+                        <button class="bg-white text-black px-7 py-2 rounded-full text-xs font-semibold hover:bg-white/90 transition-colors">Watch now</button>
+                    </div>
+                </div>
+                <!-- Spacer for right padding -->
+                <div class="min-w-[1px]"></div>
+            </div>
+            <!-- Dots Indicator -->
+            <div class="flex space-x-1.5 mt-5">
+                <span class="w-1.5 h-1.5 rounded-full bg-black transition-all"></span>
+                <span class="w-1.5 h-1.5 rounded-full bg-gray-300"></span>
+                <span class="w-1.5 h-1.5 rounded-full bg-gray-300"></span>
+            </div>
+        </section>
+        <!-- END: AppleTVPlus_Slider -->
+    </main>
+
+    <!-- BEGIN: Footer -->
+    <footer class="bg-apple-gray text-[12px] text-gray-500 leading-relaxed border-t border-gray-200">
+        <div class="max-w-screen-xl mx-auto px-5 py-6 space-y-4">
+            <!-- Legal Text -->
+            <div class="space-y-2 pb-5 border-b border-gray-300">
+                <p>1. Trade-in values vary based on the condition, year, and configuration of your trade-in device. You must be at least 18 years old. Offer may not be available in all stores and not all devices are eligible for credit. Apple reserves the right to refuse or limit the quantity of any device for any reason. In-store trade-in requires presentation of a valid government-issued photo ID.</p>
+                <p>A subscription is required for Apple TV+. Apple TV+ is available on the Apple TV app on iPhone, iPad, Apple TV, Mac, popular smart TVs and streaming devices.</p>
+            </div>
+
+            <!-- Accordion Navigation -->
+            <div class="divide-y divide-gray-200">
+                <!-- Accordion items -->
+                <div class="accordion-item">
+                    <button class="accordion-trigger w-full py-3.5 flex justify-between items-center font-medium text-gray-700 text-[13px] text-left">
+                        <span>Shop and Learn</span>
+                        <span class="accordion-icon text-gray-400">+</span>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="pb-4 grid grid-cols-2 gap-1">
+                            <a class="py-1 hover:text-apple-blue transition-colors" href="#">Store</a>
+                            <a class="py-1 hover:text-apple-blue transition-colors" href="#">Mac</a>
+                            <a class="py-1 hover:text-apple-blue transition-colors" href="#">iPad</a>
+                            <a class="py-1 hover:text-apple-blue transition-colors" href="#">iPhone</a>
+                            <a class="py-1 hover:text-apple-blue transition-colors" href="#">Watch</a>
+                            <a class="py-1 hover:text-apple-blue transition-colors" href="#">AirPods</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <button class="accordion-trigger w-full py-3.5 flex justify-between items-center font-medium text-gray-700 text-[13px] text-left">
+                        <span>Apple Wallet</span>
+                        <span class="accordion-icon text-gray-400">+</span>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="pb-4 grid grid-cols-2 gap-1">
+                            <a class="py-1 hover:text-apple-blue transition-colors" href="#">Wallet</a>
+                            <a class="py-1 hover:text-apple-blue transition-colors" href="#">Apple Card</a>
+                            <a class="py-1 hover:text-apple-blue transition-colors" href="#">Apple Pay</a>
+                            <a class="py-1 hover:text-apple-blue transition-colors" href="#">Apple Cash</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <button class="accordion-trigger w-full py-3.5 flex justify-between items-center font-medium text-gray-700 text-[13px] text-left">
+                        <span>Account</span>
+                        <span class="accordion-icon text-gray-400">+</span>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="pb-4 grid grid-cols-2 gap-1">
+                            <a class="py-1 hover:text-apple-blue transition-colors" href="#">Manage Your Apple ID</a>
+                            <a class="py-1 hover:text-apple-blue transition-colors" href="#">Apple Store Account</a>
+                            <a class="py-1 hover:text-apple-blue transition-colors" href="#">iCloud.com</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <button class="accordion-trigger w-full py-3.5 flex justify-between items-center font-medium text-gray-700 text-[13px] text-left">
+                        <span>Entertainment</span>
+                        <span class="accordion-icon text-gray-400">+</span>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="pb-4 grid grid-cols-2 gap-1">
+                            <a class="py-1 hover:text-apple-blue transition-colors" href="#">Apple TV+</a>
+                            <a class="py-1 hover:text-apple-blue transition-colors" href="#">Apple Music</a>
+                            <a class="py-1 hover:text-apple-blue transition-colors" href="#">Apple Arcade</a>
+                            <a class="py-1 hover:text-apple-blue transition-colors" href="#">Apple Fitness+</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <button class="accordion-trigger w-full py-3.5 flex justify-between items-center font-medium text-gray-700 text-[13px] text-left">
+                        <span>Apple Store</span>
+                        <span class="accordion-icon text-gray-400">+</span>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="pb-4 grid grid-cols-2 gap-1">
+                            <a class="py-1 hover:text-apple-blue transition-colors" href="#">Find a Store</a>
+                            <a class="py-1 hover:text-apple-blue transition-colors" href="#">Genius Bar</a>
+                            <a class="py-1 hover:text-apple-blue transition-colors" href="#">Today at Apple</a>
+                            <a class="py-1 hover:text-apple-blue transition-colors" href="#">Apple Camp</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <button class="accordion-trigger w-full py-3.5 flex justify-between items-center font-medium text-gray-700 text-[13px] text-left">
+                        <span>For Business</span>
+                        <span class="accordion-icon text-gray-400">+</span>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="pb-4">
+                            <a class="block py-1 hover:text-apple-blue transition-colors" href="#">Apple and Business</a>
+                            <a class="block py-1 hover:text-apple-blue transition-colors" href="#">Shop for Business</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <button class="accordion-trigger w-full py-3.5 flex justify-between items-center font-medium text-gray-700 text-[13px] text-left">
+                        <span>About Apple</span>
+                        <span class="accordion-icon text-gray-400">+</span>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="pb-4 grid grid-cols-2 gap-1">
+                            <a class="py-1 hover:text-apple-blue transition-colors" href="#">Newsroom</a>
+                            <a class="py-1 hover:text-apple-blue transition-colors" href="#">Apple Leadership</a>
+                            <a class="py-1 hover:text-apple-blue transition-colors" href="#">Career Opportunities</a>
+                            <a class="py-1 hover:text-apple-blue transition-colors" href="#">Investors</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Copyright & Bottom Links -->
+            <div class="pt-4 pb-6 border-t border-gray-200">
+                <p class="mb-2">More ways to shop: <a class="text-apple-blue hover:underline" href="#">Find an Apple Store</a> or <a class="text-apple-blue hover:underline" href="#">other retailer</a> near you. Or call 1-800-MY-APPLE.</p>
+                <p class="mb-3">United States</p>
+                <div class="flex flex-wrap gap-x-4 gap-y-1 text-gray-400">
+                    <p>Copyright &copy; 2025 Apple Inc. All rights reserved.</p>
+                    <a class="hover:text-apple-blue transition-colors" href="#">Privacy Policy</a>
+                    <a class="hover:text-apple-blue transition-colors" href="#">Terms of Use</a>
+                    <a class="hover:text-apple-blue transition-colors" href="#">Sales and Refunds</a>
+                    <a class="hover:text-apple-blue transition-colors" href="#">Legal</a>
+                    <a class="hover:text-apple-blue transition-colors" href="#">Site Map</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- END: Footer -->
+
+    <script>
+        // Scroll reveal
+        const revealEls = document.querySelectorAll('.reveal');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+        revealEls.forEach(el => observer.observe(el));
+
+        // Footer accordion
+        document.querySelectorAll('.accordion-trigger').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const item = btn.closest('.accordion-item');
+                const content = item.querySelector('.accordion-content');
+                const icon = btn.querySelector('.accordion-icon');
+                const isOpen = content.classList.contains('open');
+
+                // Close all
+                document.querySelectorAll('.accordion-content').forEach(c => c.classList.remove('open'));
+                document.querySelectorAll('.accordion-icon').forEach(i => i.classList.remove('open'));
+
+                // Toggle clicked
+                if (!isOpen) {
+                    content.classList.add('open');
+                    icon.classList.add('open');
+                }
+            });
+        });
+
+        // TV slider dots sync
+        const slider = document.querySelector('.snap-x');
+        const dots = document.querySelectorAll('.flex.space-x-1\\.5 span');
+        if (slider && dots.length) {
+            slider.addEventListener('scroll', () => {
+                const idx = Math.round(slider.scrollLeft / slider.offsetWidth);
+                dots.forEach((d, i) => {
+                    d.classList.toggle('bg-black', i === idx);
+                    d.classList.toggle('bg-gray-300', i !== idx);
+                });
+            });
+        }
+    </script>
+</body>
+
+</html>

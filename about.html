@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>About — Apple (Clone)</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'apple-gray': '#f5f5f7',
+                        'apple-blue': '#0071e3',
+                        'apple-dark': '#1d1d1f',
+                    },
+                    fontFamily: {
+                        sans: ['-apple-system', 'BlinkMacSystemFont', '"SF Pro Display"', '"Segoe UI"', 'Roboto', '"Helvetica Neue"', 'Arial', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        html { scroll-behavior: smooth; }
+
+        body {
+            background-color: #fff;
+            color: #1d1d1f;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        nav {
+            backdrop-filter: saturate(180%) blur(20px);
+            background-color: rgba(22, 22, 23, 0.85);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                        transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+        .reveal-delay-4 { transition-delay: 0.4s; }
+
+        .stat-card {
+            border: 1px solid rgba(0,0,0,0.08);
+            border-radius: 20px;
+            background: #fff;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+        }
+
+        .value-card {
+            border-radius: 20px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        .value-card:hover { transform: translateY(-4px); }
+
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            top: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom, #0071e3, #6e3ff3);
+        }
+
+        .exec-card img {
+            transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .exec-card:hover img { transform: scale(1.04); }
+
+        .hero-bg {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0a0a0a 100%);
+        }
+
+        .gradient-text {
+            background: linear-gradient(90deg, #0071e3, #6e3ff3, #0071e3);
+            background-size: 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shimmer 4s linear infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 0% center; }
+            100% { background-position: 200% center; }
+        }
+
+        .section-divider { border-bottom: 1px solid rgba(0,0,0,0.08); }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            background-color: #0071e3;
+            color: #fff;
+            padding: 0.6rem 1.4rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: background-color 0.2s ease, transform 0.15s ease;
+        }
+        .btn-primary:hover { background-color: #0077ed; transform: scale(1.02); }
+        .btn-primary:active { transform: scale(0.98); }
+
+        .btn-outline {
+            display: inline-flex;
+            align-items: center;
+            border: 1.5px solid #0071e3;
+            color: #0071e3;
+            padding: 0.6rem 1.4rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: background-color 0.2s ease, color 0.2s ease, transform 0.15s ease;
+        }
+        .btn-outline:hover { background-color: #0071e3; color: #fff; transform: scale(1.02); }
+        .btn-outline:active { transform: scale(0.98); }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(6px); }
+        }
+        .scroll-indicator { animation: bounce 2s ease infinite; }
+    </style>
+</head>
+
+<body class="overflow-x-hidden">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 h-[48px] flex items-center px-4 text-white">
+        <div class="flex items-center w-full justify-between max-w-screen-xl mx-auto">
+            <a class="opacity-80 hover:opacity-100 transition-opacity flex-shrink-0" href="index.html">
+                <svg fill="currentColor" height="44" viewBox="0 0 14 44" width="14" xmlns="http://www.w3.org/2000/svg">
+                    <path d="m13.0729 17.6825a3.61 3.61 0 0 0 -1.7248 3.0335 3.5132 3.5132 0 0 0 2.1379 3.2223 8.3051 8.3051 0 0 1 -1.0926 2.2693c-.744 1.0914-1.5191 2.1793-2.7408 2.1793s-1.5163-1.0125-2.9123-1.0125c-1.3934 0-1.8986 1.0125-3.0016 1.0125s-1.8413-1.0125-2.6738-2.1793a12.016 12.016 0 0 1 -2.0649-6.3155c0-3.7563 2.4357-5.7369 4.8251-5.7369 1.2646 0 2.3385.83 3.1251.83.7741 0 2.0535-1.0125 3.5255-1.0125a3.4611 3.4611 0 0 1 2.6224 1.7101zm-4.7063-4.14a3.1559 3.1559 0 0 0 .7362-2.1581 3.3213 3.3213 0 0 0 -2.1451 1.088 3.0567 3.0567 0 0 0 -.7766 2.1036 2.7686 2.7686 0 0 0 2.1855-1.0335z"></path>
+                </svg>
+            </a>
+            <div class="hidden md:flex items-center space-x-6 text-[13px] opacity-80">
+                <a class="hover:opacity-100 transition-opacity text-apple-blue opacity-100 font-medium" href="about.html">About</a>
+                <a class="hover:opacity-100 transition-opacity" href="index.html">Mac</a>
+                <a class="hover:opacity-100 transition-opacity" href="index.html">iPad</a>
+                <a class="hover:opacity-100 transition-opacity" href="index.html">iPhone</a>
+                <a class="hover:opacity-100 transition-opacity" href="index.html">Watch</a>
+                <a class="hover:opacity-100 transition-opacity" href="index.html">TV &amp; Home</a>
+                <a class="hover:opacity-100 transition-opacity" href="index.html">Support</a>
+            </div>
+            <div class="flex items-center space-x-5">
+                <a class="opacity-80 hover:opacity-100 transition-opacity" href="#">
+                    <svg fill="none" height="15" stroke="currentColor" stroke-width="1.5" viewBox="0 0 15 15" width="15">
+                        <circle cx="7" cy="7" r="5"></circle>
+                        <path d="M11 11L13.5 13.5"></path>
+                    </svg>
+                </a>
+                <a class="opacity-80 hover:opacity-100 transition-opacity" href="#">
+                    <svg fill="none" height="16" stroke="currentColor" stroke-width="1.2" viewBox="0 0 14 16" width="14">
+                        <path d="M4 4V3C4 1.34315 5.34315 0 7 0C8.65685 0 10 1.34315 10 3V4M2 4H12C12.5523 4 13 4.44772 13 5V14C13 14.5523 12.5523 15 12 15H2C1.44772 15 1 14.5523 1 14V5C1 4.44772 1.44772 4 2 4Z"></path>
+                    </svg>
+                </a>
+                <a class="opacity-80 hover:opacity-100 transition-opacity md:hidden" href="#">
+                    <svg fill="none" height="18" stroke="currentColor" stroke-width="1.5" viewBox="0 0 18 18" width="18">
+                        <path d="M2 6H16M2 12H16"></path>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+
+        <!-- HERO -->
+        <section class="hero-bg text-white min-h-screen flex flex-col items-center justify-center text-center px-6 pt-[48px] relative overflow-hidden">
+            <div class="absolute top-1/4 left-1/4 w-96 h-96 rounded-full opacity-10" style="background: radial-gradient(circle, #0071e3, transparent 70%); filter: blur(60px);"></div>
+            <div class="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full opacity-10" style="background: radial-gradient(circle, #6e3ff3, transparent 70%); filter: blur(60px);"></div>
+
+            <div class="relative z-10 max-w-4xl mx-auto">
+                <p class="text-[13px] font-medium tracking-[0.2em] uppercase text-apple-blue mb-5 reveal">Our Story</p>
+                <h1 class="text-[48px] md:text-[72px] font-bold leading-none tracking-tight mb-6 reveal reveal-delay-1">
+                    We believe<br><span class="gradient-text">technology</span><br>should empower.
+                </h1>
+                <p class="text-[18px] md:text-[21px] text-white/60 max-w-2xl mx-auto leading-relaxed reveal reveal-delay-2">
+                    From a garage in Cupertino to the pockets of billions — Apple has always been driven by a simple idea: create tools that help people live better, create more, and connect deeper.
+                </p>
+                <div class="flex items-center justify-center gap-4 mt-10 reveal reveal-delay-3">
+                    <a class="btn-primary" href="#mission">Our Mission</a>
+                    <a class="btn-outline" href="#timeline">Our History</a>
+                </div>
+            </div>
+
+            <div class="absolute bottom-10 left-1/2 -translate-x-1/2 scroll-indicator">
+                <svg fill="none" height="24" stroke="rgba(255,255,255,0.4)" stroke-width="1.5" viewBox="0 0 24 24" width="24">
+                    <path d="M12 5v14M5 12l7 7 7-7"/>
+                </svg>
+            </div>
+        </section>
+
+        <!-- STATS -->
+        <section class="bg-apple-gray section-divider py-20 px-6">
+            <div class="max-w-screen-xl mx-auto">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="stat-card p-8 text-center reveal">
+                        <p class="text-[40px] md:text-[52px] font-bold text-apple-dark leading-none">2B+</p>
+                        <p class="text-[14px] text-gray-500 mt-2">Active Devices Worldwide</p>
+                    </div>
+                    <div class="stat-card p-8 text-center reveal reveal-delay-1">
+                        <p class="text-[40px] md:text-[52px] font-bold text-apple-dark leading-none">175+</p>
+                        <p class="text-[14px] text-gray-500 mt-2">Countries &amp; Regions</p>
+                    </div>
+                    <div class="stat-card p-8 text-center reveal reveal-delay-2">
+                        <p class="text-[40px] md:text-[52px] font-bold text-apple-dark leading-none">150K+</p>
+                        <p class="text-[14px] text-gray-500 mt-2">Employees Globally</p>
+                    </div>
+                    <div class="stat-card p-8 text-center reveal reveal-delay-3">
+                        <p class="text-[40px] md:text-[52px] font-bold text-apple-dark leading-none">1977</p>
+                        <p class="text-[14px] text-gray-500 mt-2">Year Founded</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MISSION -->
+        <section id="mission" class="bg-white section-divider py-24 px-6">
+            <div class="max-w-screen-lg mx-auto text-center">
+                <p class="text-[13px] font-medium tracking-[0.2em] uppercase text-apple-blue mb-4 reveal">Mission</p>
+                <h2 class="text-[36px] md:text-[52px] font-semibold leading-tight tracking-tight text-apple-dark reveal reveal-delay-1">
+                    To bring the best user<br class="hidden md:block"> experience through innovation.
+                </h2>
+                <p class="text-[17px] text-gray-500 mt-6 max-w-2xl mx-auto leading-relaxed reveal reveal-delay-2">
+                    Apple designs products and services that give people the power to do what they love in ways they never imagined. We push the boundaries of what's possible — in hardware, software, and services — to make technology personal, intuitive, and delightful.
+                </p>
+            </div>
+
+            <div class="max-w-screen-xl mx-auto mt-16 grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-apple-gray rounded-2xl p-8 reveal">
+                    <div class="w-12 h-12 rounded-2xl bg-apple-blue/10 flex items-center justify-center mb-5">
+                        <svg fill="none" height="24" stroke="#0071e3" stroke-width="1.6" viewBox="0 0 24 24" width="24">
+                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-[20px] font-semibold mb-2">Design</h3>
+                    <p class="text-[15px] text-gray-500 leading-relaxed">Form and function are inseparable. Every curve, pixel, and interaction is crafted with intention to create products that feel inevitable.</p>
+                </div>
+                <div class="bg-apple-gray rounded-2xl p-8 reveal reveal-delay-1">
+                    <div class="w-12 h-12 rounded-2xl bg-purple-500/10 flex items-center justify-center mb-5">
+                        <svg fill="none" height="24" stroke="#6e3ff3" stroke-width="1.6" viewBox="0 0 24 24" width="24">
+                            <path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-[20px] font-semibold mb-2">Innovation</h3>
+                    <p class="text-[15px] text-gray-500 leading-relaxed">We don't just follow trends — we set them. Our silicon, our software, and our services are built to redefine what's achievable.</p>
+                </div>
+                <div class="bg-apple-gray rounded-2xl p-8 reveal reveal-delay-2">
+                    <div class="w-12 h-12 rounded-2xl bg-green-500/10 flex items-center justify-center mb-5">
+                        <svg fill="none" height="24" stroke="#34c759" stroke-width="1.6" viewBox="0 0 24 24" width="24">
+                            <path d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-[20px] font-semibold mb-2">Environment</h3>
+                    <p class="text-[15px] text-gray-500 leading-relaxed">We're committed to leaving the world better than we found it. Apple is carbon neutral today, and our goal is to be completely carbon neutral by 2030.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- TIMELINE -->
+        <section id="timeline" class="bg-apple-gray section-divider py-24 px-6 overflow-hidden">
+            <div class="max-w-screen-lg mx-auto">
+                <div class="text-center mb-16">
+                    <p class="text-[13px] font-medium tracking-[0.2em] uppercase text-apple-blue mb-4 reveal">History</p>
+                    <h2 class="text-[36px] md:text-[48px] font-semibold leading-tight tracking-tight reveal reveal-delay-1">Decades of innovation.</h2>
+                </div>
+
+                <div class="relative">
+                    <div class="hidden md:block timeline-line"></div>
+                    <div class="space-y-8 md:space-y-0">
+
+                        <div class="md:grid md:grid-cols-2 md:gap-8 md:mb-16 reveal">
+                            <div class="md:text-right md:pr-12 pb-8 md:pb-0">
+                                <span class="text-[13px] font-semibold text-apple-blue">1976</span>
+                                <h3 class="text-[20px] font-semibold mt-1">Apple is Founded</h3>
+                                <p class="text-[14px] text-gray-500 mt-1 leading-relaxed">Steve Jobs, Steve Wozniak, and Ronald Wayne found Apple Computer Company in a garage in Cupertino, California. The Apple I personal computer is sold as a kit.</p>
+                            </div>
+                            <div class="md:pl-12 hidden md:block"></div>
+                        </div>
+
+                        <div class="md:grid md:grid-cols-2 md:gap-8 md:mb-16 reveal">
+                            <div class="hidden md:block md:pr-12"></div>
+                            <div class="md:pl-12 pb-8 md:pb-0">
+                                <span class="text-[13px] font-semibold text-apple-blue">1984</span>
+                                <h3 class="text-[20px] font-semibold mt-1">Macintosh Arrives</h3>
+                                <p class="text-[14px] text-gray-500 mt-1 leading-relaxed">The original Macintosh is introduced with the legendary "1984" Super Bowl ad. It becomes the first mass-market personal computer to feature a graphical user interface.</p>
+                            </div>
+                        </div>
+
+                        <div class="md:grid md:grid-cols-2 md:gap-8 md:mb-16 reveal">
+                            <div class="md:text-right md:pr-12 pb-8 md:pb-0">
+                                <span class="text-[13px] font-semibold text-apple-blue">2001</span>
+                                <h3 class="text-[20px] font-semibold mt-1">iPod &amp; iTunes</h3>
+                                <p class="text-[14px] text-gray-500 mt-1 leading-relaxed">Apple launches the iPod and iTunes, transforming the music industry forever. "1,000 songs in your pocket" becomes one of tech's most iconic phrases.</p>
+                            </div>
+                            <div class="md:pl-12 hidden md:block"></div>
+                        </div>
+
+                        <div class="md:grid md:grid-cols-2 md:gap-8 md:mb-16 reveal">
+                            <div class="hidden md:block md:pr-12"></div>
+                            <div class="md:pl-12 pb-8 md:pb-0">
+                                <span class="text-[13px] font-semibold text-apple-blue">2007</span>
+                                <h3 class="text-[20px] font-semibold mt-1">iPhone Changes Everything</h3>
+                                <p class="text-[14px] text-gray-500 mt-1 leading-relaxed">Steve Jobs unveils the original iPhone — a revolutionary multi-touch device that reimagines what a phone could be. The smartphone era begins.</p>
+                            </div>
+                        </div>
+
+                        <div class="md:grid md:grid-cols-2 md:gap-8 reveal">
+                            <div class="md:text-right md:pr-12 pb-8 md:pb-0">
+                                <span class="text-[13px] font-semibold text-apple-blue">2020</span>
+                                <h3 class="text-[20px] font-semibold mt-1">Apple Silicon</h3>
+                                <p class="text-[14px] text-gray-500 mt-1 leading-relaxed">Apple transitions the Mac lineup to its own Apple Silicon chips starting with M1 — delivering breakthrough performance and efficiency that redefines personal computing.</p>
+                            </div>
+                            <div class="md:pl-12 hidden md:block"></div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VALUES -->
+        <section class="bg-white section-divider py-24 px-6">
+            <div class="max-w-screen-xl mx-auto">
+                <div class="text-center mb-16">
+                    <p class="text-[13px] font-medium tracking-[0.2em] uppercase text-apple-blue mb-4 reveal">Values</p>
+                    <h2 class="text-[36px] md:text-[48px] font-semibold leading-tight tracking-tight reveal reveal-delay-1">What we stand for.</h2>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="value-card bg-[#1c1c1e] text-white p-10 reveal">
+                        <div class="w-11 h-11 rounded-xl bg-white/10 flex items-center justify-center mb-6">
+                            <svg fill="none" height="22" stroke="white" stroke-width="1.6" viewBox="0 0 24 24" width="22">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-[24px] font-semibold mb-3">Privacy</h3>
+                        <p class="text-white/60 text-[15px] leading-relaxed">Privacy is a fundamental human right and one of our core values. We design our products and services so that you're in control of your personal information.</p>
+                    </div>
+                    <div class="value-card bg-[#d5e8f4] p-10 reveal reveal-delay-1">
+                        <div class="w-11 h-11 rounded-xl bg-apple-blue/15 flex items-center justify-center mb-6">
+                            <svg fill="none" height="22" stroke="#0071e3" stroke-width="1.6" viewBox="0 0 24 24" width="22">
+                                <circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-[24px] font-semibold mb-3">Accessibility</h3>
+                        <p class="text-apple-dark/60 text-[15px] leading-relaxed">Technology is most powerful when it's available to everyone. We're committed to building products that work for people with a wide range of abilities.</p>
+                    </div>
+                    <div class="value-card bg-[#e8f4e8] p-10 reveal">
+                        <div class="w-11 h-11 rounded-xl bg-green-500/15 flex items-center justify-center mb-6">
+                            <svg fill="none" height="22" stroke="#34c759" stroke-width="1.6" viewBox="0 0 24 24" width="22">
+                                <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-[24px] font-semibold mb-3">Environment</h3>
+                        <p class="text-apple-dark/60 text-[15px] leading-relaxed">We take full responsibility for our impact on the planet. Apple's corporate operations are carbon neutral, and we're working toward a fully carbon-neutral supply chain by 2030.</p>
+                    </div>
+                    <div class="value-card bg-[#f0e8f4] p-10 reveal reveal-delay-1">
+                        <div class="w-11 h-11 rounded-xl bg-purple-500/15 flex items-center justify-center mb-6">
+                            <svg fill="none" height="22" stroke="#6e3ff3" stroke-width="1.6" viewBox="0 0 24 24" width="22">
+                                <path d="M12 14l9-5-9-5-9 5 9 5z"/><path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-[24px] font-semibold mb-3">Education</h3>
+                        <p class="text-apple-dark/60 text-[15px] leading-relaxed">We believe education is a great equalizer. Apple invests in tools and programs that help students and educators unlock their creative potential in the classroom and beyond.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- LEADERSHIP -->
+        <section class="bg-apple-gray section-divider py-24 px-6">
+            <div class="max-w-screen-xl mx-auto">
+                <div class="text-center mb-16">
+                    <p class="text-[13px] font-medium tracking-[0.2em] uppercase text-apple-blue mb-4 reveal">Leadership</p>
+                    <h2 class="text-[36px] md:text-[48px] font-semibold leading-tight tracking-tight reveal reveal-delay-1">The people behind Apple.</h2>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-5">
+                    <div class="exec-card text-center reveal">
+                        <div class="rounded-2xl overflow-hidden aspect-[3/4] bg-gradient-to-br from-gray-200 to-gray-300 mb-4 flex items-center justify-center">
+                            <svg fill="none" height="60" stroke="#9ca3af" stroke-width="1" viewBox="0 0 24 24" width="60">
+                                <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/>
+                            </svg>
+                        </div>
+                        <p class="font-semibold text-[15px]">Tim Cook</p>
+                        <p class="text-[13px] text-gray-500">CEO</p>
+                    </div>
+                    <div class="exec-card text-center reveal reveal-delay-1">
+                        <div class="rounded-2xl overflow-hidden aspect-[3/4] bg-gradient-to-br from-gray-200 to-gray-300 mb-4 flex items-center justify-center">
+                            <svg fill="none" height="60" stroke="#9ca3af" stroke-width="1" viewBox="0 0 24 24" width="60">
+                                <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/>
+                            </svg>
+                        </div>
+                        <p class="font-semibold text-[15px]">Jeff Williams</p>
+                        <p class="text-[13px] text-gray-500">COO</p>
+                    </div>
+                    <div class="exec-card text-center reveal reveal-delay-2">
+                        <div class="rounded-2xl overflow-hidden aspect-[3/4] bg-gradient-to-br from-gray-200 to-gray-300 mb-4 flex items-center justify-center">
+                            <svg fill="none" height="60" stroke="#9ca3af" stroke-width="1" viewBox="0 0 24 24" width="60">
+                                <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/>
+                            </svg>
+                        </div>
+                        <p class="font-semibold text-[15px]">Luca Maestri</p>
+                        <p class="text-[13px] text-gray-500">CFO</p>
+                    </div>
+                    <div class="exec-card text-center reveal reveal-delay-3">
+                        <div class="rounded-2xl overflow-hidden aspect-[3/4] bg-gradient-to-br from-gray-200 to-gray-300 mb-4 flex items-center justify-center">
+                            <svg fill="none" height="60" stroke="#9ca3af" stroke-width="1" viewBox="0 0 24 24" width="60">
+                                <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/>
+                            </svg>
+                        </div>
+                        <p class="font-semibold text-[15px]">Craig Federighi</p>
+                        <p class="text-[13px] text-gray-500">SVP Software Engineering</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA -->
+        <section class="bg-[#0a0a0a] text-white py-28 px-6 text-center relative overflow-hidden">
+            <div class="absolute inset-0 opacity-20" style="background: radial-gradient(ellipse 80% 60% at 50% 50%, #0071e3, transparent);"></div>
+            <div class="relative z-10 max-w-2xl mx-auto">
+                <h2 class="text-[36px] md:text-[52px] font-semibold leading-tight tracking-tight reveal">
+                    Join us in building<br>what's next.
+                </h2>
+                <p class="text-white/50 text-[17px] mt-5 leading-relaxed reveal reveal-delay-1">
+                    There's work happening at Apple that doesn't exist anywhere else in the world. Come be a part of something extraordinary.
+                </p>
+                <div class="flex items-center justify-center gap-4 mt-10 reveal reveal-delay-2">
+                    <a class="btn-primary" href="#">View open roles</a>
+                    <a class="inline-flex items-center text-apple-blue text-[15px] font-medium hover:underline" href="index.html">
+                        Back to home
+                        <svg fill="none" height="16" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="16" class="ml-1">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-apple-gray text-[12px] text-gray-500 border-t border-gray-200">
+        <div class="max-w-screen-xl mx-auto px-5 py-6">
+            <div class="flex flex-wrap gap-x-5 gap-y-1 border-b border-gray-200 pb-4 mb-4">
+                <a class="hover:text-apple-blue transition-colors" href="index.html">Home</a>
+                <a class="hover:text-apple-blue transition-colors" href="#">Mac</a>
+                <a class="hover:text-apple-blue transition-colors" href="#">iPhone</a>
+                <a class="hover:text-apple-blue transition-colors" href="#">iPad</a>
+                <a class="hover:text-apple-blue transition-colors" href="#">Watch</a>
+                <a class="hover:text-apple-blue transition-colors" href="#">Support</a>
+            </div>
+            <div class="flex flex-wrap gap-x-5 gap-y-1 text-gray-400">
+                <p>Copyright &copy; 2025 Apple Inc. All rights reserved.</p>
+                <a class="hover:text-apple-blue transition-colors" href="#">Privacy Policy</a>
+                <a class="hover:text-apple-blue transition-colors" href="#">Terms of Use</a>
+                <a class="hover:text-apple-blue transition-colors" href="#">Legal</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    </script>
+</body>
+
+</html>
